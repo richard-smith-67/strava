@@ -1,48 +1,44 @@
 <div id=athlete></div>
 <script>
-   
-       function getUser() {
-        
-        // var express = require('express');
-        // var app = express();
-
+    function ParseStravaAccessCodeFromUrl(url) {
         var url = window.location.href;
         var codeIndex = url.search("code");
-        var code = url.substring(codeIndex + 5);
+        return url.substring(codeIndex + 5);
+    }
+
+    function getUser() {
+
+        var code = ParseStravaAccessCodeFromUrl(window.location.href);
         var clientId = '14088';
         var clientSecret = '0adc885506a90b63063005e93651299a60d58767';
-         
-        console.log(code);
 
-        var url = 'https://www.strava.com/oauth/token?client_id=' + 
-        clientId + 
-        '&client_secret=' + clientSecret + 
-        '&code=' + code;
+        var url = 'https://www.strava.com/oauth/token?client_id=' +
+            clientId +
+            '&client_secret=' + clientSecret +
+            '&code=' + code;
 
-        console.log(url);
+        var request = new Request(url, {
+            method: 'POST',
+            // mode: 'cors', 
+            // redirect: 'follow',
+            // headers: new Headers({
+            //   'Content-Type': 'text/plain'
+            // })
+        });
 
-       var request = new Request(url, {
-        method: 'POST', 
-        // mode: 'cors', 
-        // redirect: 'follow',
-        // headers: new Headers({
-        //   'Content-Type': 'text/plain'
-        // })
-      });
+        // Now use it!
+        fetch(request).then(function(response) {
 
-      // Now use it!
-      fetch(request).then(function(response) { 
+            return response.json()
+                .then(function(json) {
+                    console.log(json.athlete);
+                    document.getElementById('athlete').innerHTML = JSON.stringify(json.athlete);
+                })
 
-        return response.json()
-          .then(function(json) {
-            console.log(json.athlete);
-            document.getElementById('athlete').innerHTML = JSON.stringify(json.athlete); 
-          }) 
+        });
 
-      });
-            
-      }
+    }
 
     getUser();
-
+    
 </script>
