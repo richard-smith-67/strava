@@ -24,13 +24,14 @@
                 <label for="distance">Distance (miles)</label>
                 <input id="distance" type="range" min="10" max="100+" step="5" oninput="Update(value, 'distanceOutput')" />
                 <output for="distance" id="distanceOutput">25</output>
-            </div>    
+            </div>
+            <button onclick="submit">Save</button>    
         </form>
     </body>
     <script>
         function Update(input, selectedElement) {
-            console.log(selectedElement);
-            document.querySelector('#' + selectedElement).value = input;
+           document.querySelector('#' + selectedElement).value = input;
         } 
+      
     </script>
 </html>
